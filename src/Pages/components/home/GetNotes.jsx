@@ -34,6 +34,6 @@ export default function GetNotes() {
 
 
   return <div className="container mt-5">
-      <Loader isloaded={state.isLoaded} notes={state.notes} />
+      <Loader isloaded={state.isloaded} notes={state.notes} />
   </div>;
 }
