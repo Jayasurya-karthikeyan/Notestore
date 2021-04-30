@@ -6,13 +6,14 @@ import Notes from "./Notes";
 import NotesLoader from "./NotesLoader";
 
 export default function GetNotes() {
+
     const Loader = NotesLoader(Notes);
     const [state,setState] = useState({
         isloaded: false,
         notes: null,
     });
     const notes = [];
-
+  
   useEffect(() => {
     var db = firebase.firestore();
     db.collection("notes")
@@ -34,6 +35,6 @@ export default function GetNotes() {
 
 
   return <div className="container mt-5">
-      <Loader isloaded={state.isloaded} notes={state.notes} />
+    <Loader isloaded={state.isloaded} notes={state.notes} />
   </div>;
 }
