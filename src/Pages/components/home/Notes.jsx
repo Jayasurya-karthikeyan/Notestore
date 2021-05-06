@@ -1,85 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
+import "../../firebase";
+import firebase from "firebase/app";
+
+
 import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-import { fade, makeStyles } from '@material-ui/core/styles';
 
 
 export default function Notes(props) {
+  const BarStyling = {
+    width: "20rem",
+    background: "#F2F1F9",
+    border: "none",
+    padding: "0.5rem",
+    margin: "5px",
+  };
+  // const [input, setInput] = useState('');
+  const [data, setData] = useState("");
 
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//       flexGrow: 1,
-//     },
-//     search: {
-//       position: 'relative',
-//       borderRadius: theme.shape.borderRadius,
-//       backgroundColor: fade(theme.palette.common.white, 0.15),
-//       '&:hover': {
-//         backgroundColor: fade(theme.palette.common.white, 0.25),
-//       },
-//       marginLeft: 0,
-//       width: '100%',
-//       [theme.breakpoints.up('sm')]: {
-//         marginLeft: theme.spacing(1),
-//         width: 'auto',
-//       },
-//     },
-//     searchIcon: {
-//       padding: theme.spacing(0, 2),
-//       height: '100%',
-//       position: 'absolute',
-//       pointerEvents: 'none',
-//       display: 'flex',
-//       alignItems: 'center',
-//       justifyContent: 'center',
-//     },
-//     inputRoot: {
-//       color: 'inherit',
-//     },
-//     inputInput: {
-//       padding: theme.spacing(1, 1, 1, 0),
-//       // vertical padding + font size from searchIcon
-//       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-//       transition: theme.transitions.create('width'),
-//       width: '100%',
-//       [theme.breakpoints.up('sm')]: {
-//         width: '12ch',
-//         '&:focus': {
-//           width: '20ch',
-//         },
-//       },
-//     },
-//   }));
-  
   const { notes } = props;
   if (!notes || notes.length === 0) {
     return <p className="mt-5"> You haven't created any notes yet</p>;
   } else {
     return (
       <>
-        {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div> <br></br><br></br> */}
+        <input
+          style={BarStyling}
+          value={data} 
+          placeholder={"Search Note.."}
+          onChange={(event) => {
+            setData(event.target.value);
+          }}
+        />
         <h4 className="container"> Your Notes </h4>
         <div className="container mt-4">
           <div className="card-columns">
-            {notes.map((note) => {
+            {notes.map((note) => { 
+              const content = (note.note); 
+              // const contentl = content.toLowerCase(); 
+              if(!data || data.length === 0){ 
               return (
+                // connect(mapStateToProps), 
+                // fireStoreConnect([
+                // ]),
                 <Card key={note.id} className="card pt-3">
-                  <h6 className="m-0">{note.note}</h6>
+                  <h6 className="m-0">{content}</h6> <br></br>
                 </Card>
-              );
+              ); }
+              else {
+                var db = firebase.firestore();
+                const gamesRef = db.collection('notes'); 
+                const queryRef = gamesRef.where('(note.note)', '>=', data);
+                // const notesnote = note.note ;
+                // const notelen=data.toLowerCase(); 
+                return (
+                  {collection:'notes' , orderBy :['created' , 'desc']} ,
+                  <Card key={note.id} className="card pt-3">  
+                    {/* <h6 className="m-0">{content} </h6>   */}
+                    <h6 className="m-0"> {queryRef}</h6>   
+                    {/* <h6 className="m-0"> no. of Characters :{data.toLowerCase().includes(notesnote.toLowerCase())}</h6> */}
+                  </Card>
+                );                
+              }
             })}
           </div>
         </div>
@@ -87,4 +69,16 @@ export default function Notes(props) {
     );
   }
 }
-
+// const searchBar = document.forms['search-books'].querySelector['input'];
+// searchBar.addEventListener('keyup',function(e){
+//   const term = e.target.value.toLowerCase();
+//   const books = list.getElementsByTagName9('li');
+//   Array.from(books).forEach(function(book){
+//     const title = book.firstElementChild.textContent;
+//     if(title.toLowerCase().indexOf(term)!= -1){
+//       book.style.display = 'block';
+//     }else{
+//       book.style.display = 'none';
+//     }
+//     }) 
+// })    

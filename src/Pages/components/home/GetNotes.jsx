@@ -3,38 +3,37 @@ import firebase from "firebase/app";
 import "../../firebase";
 
 import Notes from "./Notes";
-import NotesLoader from "./NotesLoader";
+// import NotesLoader from "./NotesLoader";
 
 export default function GetNotes() {
 
-    const Loader = NotesLoader(Notes);
+    // const Loader = NotesLoader(Notes);
     const [state,setState] = useState({
         isloaded: false,
         notes: null,
     });
     const notes = [];
-  
-  useEffect(() => {
+
+
+  useEffect(() => {     
     var db = firebase.firestore();
-    db.collection("notes")
+    db.collection("notes")    
       .get()
       .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach((doc) => {            
             const docData = {
                 id : doc.id,
                 created : doc.data().created,
                 note : doc.data().note,
             };
-            notes.push(docData);
-        });
-        setState({ isloaded : true , notes : notes});
+            notes.push(docData); 
       });
-  }, [setState]);
+        setState({ isloaded : true , notes : notes});    
+      }); 
+  } ,[setState]); 
+ return (
+    <div className="container mt-5">
+    <Notes notes={state.notes}> </Notes> 
 
-  
-
-
-  return <div className="container mt-5">
-    <Loader isloaded={state.isloaded} notes={state.notes} />
-  </div>;
-}
+  </div>); 
+} 

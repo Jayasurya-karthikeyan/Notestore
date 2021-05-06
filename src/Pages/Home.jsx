@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import Layout from "./Layout";
 
-import GetNotes from "./components/home/GetNotes";
 import CreateNote from "./components/home/CreateNote";
-import SearchPage from "./components/home/SearchPage";
+import GetNotes from "./components/home/GetNotes";
 
 export default function Home() {
   const easing = [0.6, -0.05, 0.01, 0.99];
@@ -41,7 +40,7 @@ export default function Home() {
       
       <motion.div exit="exit" initial="initial" animate="animate">
         <motion.div variants={fadeIn2}>
-          {/* <GetNotes></GetNotes> */}<SearchPage/>
+          <GetNotes></GetNotes>
         </motion.div>
       </motion.div>
     </Layout>

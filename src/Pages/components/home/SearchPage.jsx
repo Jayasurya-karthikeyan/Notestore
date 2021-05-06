@@ -8,7 +8,7 @@ import NotesLoader from "./NotesLoader";
 
 const SearchPage = (props) => {
   const [input, setInput] = useState('');
-  const [countryList, setCountryList] = useState();
+  const [countryList, setCountryList] = useState('');
 
 
 const fetchData = async () => {
@@ -31,8 +31,8 @@ const fetchData = async () => {
 
 
   const updateInput = async (input) => {
-    const filtered = notes.filter(docData => {
-     return docData.note.toLowerCase().includes(input.toLowerCase())
+    const filtered = notes.filter(note => {
+     return note.note.toLowerCase().includes(input.toLowerCase())
     })
     setInput(input);
     setCountryList(filtered);
@@ -57,6 +57,8 @@ const fetchData = async () => {
        style={{marginBottom:"30px"}}
       />
       {/* <CountryList countryList={countryList}/> */}
+
+      
       <Loader countryList={countryList} isloaded={state.isloaded} notes={state.notes} /> 
     </>
    );
